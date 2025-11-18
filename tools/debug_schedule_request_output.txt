@@ -1,0 +1,55 @@
+Debug output: schedule endpoint probing
+Timestamp: 2025-11-18 10:41:04 UTC
+Target base URL: http://192.168.7.2:31380
+
+Actions performed:
+1) POST http://192.168.7.2:31380/inner/schedule/get/asynchronous/job/list
+   Payload (jobStatus=10):
+   {
+     "systemId": null,
+     "id": null,
+     "jobCreateUserId": null,
+     "jobCreateUserName": null,
+     "jobCreateTime": null,
+     "jobType": null,
+     "jobTaskCount": null,
+     "jobTaskOffset": null,
+     "jobStatus": "10",
+     "jobMaxRetryTimes": null,
+     "jobCurrentRetryTimes": null,
+     "jobParams": null,
+     "jobResult": null,
+     "jobOrder": null,
+     "jobStartTime": null,
+     "jobEndTime": null,
+     "additionalProperties": null
+   }
+
+   Response:
+   Status: 404 Not Found
+   Server: nginx/1.21.3
+   Content-Type: text/html
+   Body: standard nginx 404 HTML page
+
+2) POST http://192.168.7.2:31380/inner/schedule/get/asynchronous/job/list
+   Payload (jobStatus=0): same as above but "jobStatus": "0"
+
+   Response:
+   Status: 404 Not Found
+   Server: nginx/1.21.3
+   Content-Type: text/html
+   Body: standard nginx 404 HTML page
+
+Notes and recommendations for ops/maintainers:
+- The host and port are reachable (HEAD / returned 200 earlier), but the specific API path returned 404 from nginx.
+- Likely causes:
+  - Service is deployed under a different path prefix (e.g. /api, /forim, /gateway). Check nginx config for proxy_pass and location blocks.
+  - The schedule service might be hosted on a different internal port or virtual host. Confirm upstream mapping for requests to /inner/schedule/*.
+  - The upstream service may expect a different HTTP method or additional headers; however, returning an HTML 404 typically means the location is not found rather than a payload/validation error.
+
+Reproduction commands (PowerShell):
+$env:PYTHONPATH = 'src/main/python'
+$env:FORIM_INNER_SCHEDULE_URL = 'http://192.168.7.2:31380'
+python tools/debug_schedule_request.py
+
+If you want me to probe common alternate prefixes (e.g. /api/inner/schedule/..., /forim/inner/...), I can run a safe read-only probe and list which endpoints return 200/JSON vs 404. Please confirm and I will proceed.
