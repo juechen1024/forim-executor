@@ -1,0 +1,67 @@
+server:
+  port: 8090
+management:
+  endpoint:
+    shutdown:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  server:
+    # 自定义端口
+    port: 6090
+feign:
+  client:
+    config:
+      default: # 这里的default表示对所有Feign客户端生效，如果你想为特定的服务配置，请替换default为服务名
+        connectTimeout: 60000 # 连接超时时间，单位为毫秒 60秒
+        readTimeout: 60000 # 读取超时时间，单位为毫秒 60秒
+spring:
+  application:
+    name: forim-executor
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 1024MB
+      max-request-size: 1024MB
+      file-size-threshold: 100MB
+  jackson:
+    # 使用 ISO 8601 格式
+    date-format: yyyy-MM-dd'T'HH:mm:ss.SSS'Z'
+    time-zone: UTC
+    serialization:
+      write_dates_as_timestamps: false
+  data:
+    redis:
+      password: PSzSN0DMwxyQ7lpgYet
+      database: 1
+      host: 192.168.7.2
+      port: 31076
+      timeout: 5s
+      connect-timeout: 3s
+      lettuce:
+        pool:
+          max-active: 20
+          max-idle: 10
+          min-idle: 2
+          max-wait: 10s
+forim:
+  inner:
+    assets:
+      url: http://192.168.7.2:31081/
+    general:
+      url: http://192.168.7.2:31082/
+    exchange:
+      url: http://192.168.7.2:31083/
+    database:
+      url: http://192.168.7.2:31084/
+    metadata:
+      url: http://192.168.7.2:31085/
+    schedule:
+      url: http://192.168.7.2:31089/
+
+#日志
+logging:
+  level:
+    cn.gov.forestry: debug
