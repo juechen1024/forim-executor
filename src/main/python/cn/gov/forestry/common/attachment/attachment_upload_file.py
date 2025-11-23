@@ -3,6 +3,9 @@ from typing import Any, Optional, Dict
 
 from cn.gov.forestry.common.attachment.attachment_file import AttachmentFile
 
+#  * 类名称：AttachmentDTO<br>
+#  * 类描述：<br>
+#  * 创建时间：2021年12月11日<br>
 
 @dataclass
 class AttachmentUploadFile:

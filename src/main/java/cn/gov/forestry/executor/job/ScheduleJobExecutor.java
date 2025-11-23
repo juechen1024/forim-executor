@@ -372,23 +372,6 @@ public class ScheduleJobExecutor {
                                                     FieldValueBuilder.object(featureObjectMap.get(SystemBuildInFieldEnum.GEOMETRY_AREA.getFieldName()))
                                             );
 
-                                            //propertiesSnakeCase.
-
-                                            // 将请求转置为插入数据库记录,校验,填写默认值
-//                                            Map<String, Object> insertDoc = new HashMap<>();
-//                                            metadataFieldListByTable.forEach(metadataFieldDTO -> {
-//                                                // 新增的值
-//                                                Object createValue = propertiesSnakeCase.get(metadataFieldDTO.getFieldName());
-//                                                // 构造新增落库的实例
-//                                                insertDoc.put(metadataFieldDTO.getFieldName(), createValue);
-//                                                // 审计日志-create
-//                                                //this.auditCreateAction(userRealmInfo, databaseInfo, metadataFieldDTO, createValue);
-//                                            });
-                                            // 执行落库
-                                            //String insertId = insert(databaseInfo, metadataTableInfo.getTableEntityName(), insertDoc);
-                                            //LOGGER.debug("shapefile-insert-id-{}", insertId);
-                                            // 不根据field字段创建
-                                            //改为批量创建
                                             buffer.add(propertiesSnakeCase);
                                         }
                                         // 达到阈值，执行批量插入
@@ -481,7 +464,7 @@ public class ScheduleJobExecutor {
             //LOGGER.info("图像信息 - 宽度: {}, 高度: {}, 波段数: {}", width, height, bandCount);
             // 获取第1波段的NoData值
             double[] noDataValues = coverage.getSampleDimension(0).getNoDataValues();
-//            LOGGER.info("noDataValues: {}", Arrays.toString(noDataValues));
+            // LOGGER.info("noDataValues: {}", Arrays.toString(noDataValues));
             // 获取仿射变换参数（像素到地理坐标的转换）
             AffineTransform gridToCRS = (AffineTransform) coverage.getGridGeometry().getGridToCRS();
             // 像元宽高
@@ -495,15 +478,15 @@ public class ScheduleJobExecutor {
             double minY = maxY - pixelHeight * height;
 
             // 获取NoData值（适用于每个波段）
-//            List<Double> noDataValuesList = new ArrayList<>();
-//            for (int i = 0; i < bandCount; i++) {
-//                double[] noDataValues = coverage.getSampleDimension(i).getNoDataValues();
-//                if (noDataValues != null && noDataValues.length > 0) {
-//                    noDataValuesList.add(noDataValues[0]);
-//                } else {
-//                    noDataValuesList.add(Double.NaN);
-//                }
-//            }
+            //            List<Double> noDataValuesList = new ArrayList<>();
+            //            for (int i = 0; i < bandCount; i++) {
+            //                double[] noDataValues = coverage.getSampleDimension(i).getNoDataValues();
+            //                if (noDataValues != null && noDataValues.length > 0) {
+            //                    noDataValuesList.add(noDataValues[0]);
+            //                } else {
+            //                    noDataValuesList.add(Double.NaN);
+            //                }
+            //            }
 
             // 更新tif元数据
             Map<String, Object> tifMetadataProperties = new HashMap<>();
@@ -549,8 +532,8 @@ public class ScheduleJobExecutor {
             builder.setName("TiffPixel");
             builder.setCRS(crs);
             builder.add("the_geom", Polygon.class);
-//            builder.add("col", Integer.class);
-//            builder.add("row", Integer.class);
+            //            builder.add("col", Integer.class);
+            //            builder.add("row", Integer.class);
             for (int i = 0; i < bandCount; i++) {
                 builder.add("band_" + (i + 1), Double.class);
             }
@@ -608,8 +591,8 @@ public class ScheduleJobExecutor {
                             // 构建要素并添加属性
                             featureBuilder.reset();
                             featureBuilder.add(polygon);
-//                    featureBuilder.add(col);
-//                    featureBuilder.add(row);
+                            //                    featureBuilder.add(col);
+                            //                    featureBuilder.add(row);
                             for (double v : pixelValues) {
                                 featureBuilder.add(v);
                             }
@@ -647,16 +630,16 @@ public class ScheduleJobExecutor {
                             UUID uuid = UuidCreator.getTimeOrderedEpoch();
                             propertiesSnakeCase.put(SystemBuildInFieldEnum.ID.getFieldName(), FieldValueBuilder.string(uuid.toString()));
                             // 将请求转置为插入数据库记录,校验,填写默认值
-//                            Map<String, Object> insertDoc = new HashMap<>();
-//                            metadataFieldListByTable.forEach(metadataFieldDTO -> {
-//                                // TODO 必填校验
-//                                // 新增的值
-//                                Object createValue = propertiesSnakeCase.get(metadataFieldDTO.getFieldName());
-//                                // 构造新增落库的实例
-//                                insertDoc.put(metadataFieldDTO.getFieldName(), createValue);
-//                                // 审计日志-create
-//                                //this.auditCreateAction(userRealmInfo, databaseInfo, metadataFieldDTO, createValue);
-//                            });
+                            //                            Map<String, Object> insertDoc = new HashMap<>();
+                            //                            metadataFieldListByTable.forEach(metadataFieldDTO -> {
+                            //                                // TODO 必填校验
+                            //                                // 新增的值
+                            //                                Object createValue = propertiesSnakeCase.get(metadataFieldDTO.getFieldName());
+                            //                                // 构造新增落库的实例
+                            //                                insertDoc.put(metadataFieldDTO.getFieldName(), createValue);
+                            //                                // 审计日志-create
+                            //                                //this.auditCreateAction(userRealmInfo, databaseInfo, metadataFieldDTO, createValue);
+                            //                            });
 
                             // 执行落库
                             //String insertId = insert(databaseInfo, metadataTableInfo.getTableEntityName(), insertDoc);
@@ -711,13 +694,13 @@ public class ScheduleJobExecutor {
         if (cell == null) {
             return "";
         }
-//        if (cell.getCellTypeEnum() == CellType.NUMERIC) {
-//            return String.valueOf(cell.getNumericCellValue());
-//        } else if (cell.getCellTypeEnum() == CellType.BOOLEAN) {
-//            return String.valueOf(cell.getBooleanCellValue());
-//        } else {
-//            return cell.getStringCellValue();
-//        }
+        //        if (cell.getCellTypeEnum() == CellType.NUMERIC) {
+        //            return String.valueOf(cell.getNumericCellValue());
+        //        } else if (cell.getCellTypeEnum() == CellType.BOOLEAN) {
+        //            return String.valueOf(cell.getBooleanCellValue());
+        //        } else {
+        //            return cell.getStringCellValue();
+        //        }
         if (cell.getCellType() == Cell.CELL_TYPE_NUMERIC) {
             return String.valueOf(cell.getNumericCellValue());
         } else if (cell.getCellType() == Cell.CELL_TYPE_BOOLEAN) {

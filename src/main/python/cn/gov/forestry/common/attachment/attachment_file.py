@@ -1,6 +1,9 @@
 from dataclasses import dataclass
 from typing import Optional, Dict, Any
-
+# /**
+#  * 类名称：AttachmentDTO<br>
+#  * 类描述：适配了antd procomponents 里upload的结构<br>
+#  */
 
 @dataclass
 class AttachmentFile:

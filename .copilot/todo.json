@@ -1,0 +1,8 @@
+[
+	"Extract Java logic mapping",
+	"Draft Python helpers from beifen",
+	"Implement execute and helper methods",
+	"Replace client imports and method names",
+	"Verify other modules still compile / run",
+	"Document next steps"
+]

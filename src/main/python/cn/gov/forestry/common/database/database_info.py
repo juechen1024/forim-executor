@@ -1,5 +1,8 @@
 from dataclasses import dataclass
-from typing import Optional, Dict, Any
+from typing import Optional, Dict, Any, TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from cn.gov.forestry.common.domain.dto.general.general_system_dto import GeneralSystemDTO
 
 
 @dataclass
@@ -35,6 +38,20 @@ class DatabaseInfo:
             databaseUsername=data.get('databaseUsername'),
             databasePassword=data.get('databasePassword'),
             databaseName=data.get('databaseName'),
+        )
+
+    @classmethod
+    def from_system_info(cls, system: 'GeneralSystemDTO') -> 'DatabaseInfo':
+        if system is None:
+            return cls()
+        return cls(
+            systemId=getattr(system, 'id', None),
+            databaseType=getattr(system, 'systemDatabaseType', None),
+            databaseHost=getattr(system, 'systemDatabaseHost', None),
+            databasePort=getattr(system, 'systemDatabasePort', None),
+            databaseUsername=getattr(system, 'systemDatabaseUsername', None),
+            databasePassword=getattr(system, 'systemDatabasePassword', None),
+            databaseName=getattr(system, 'systemDatabaseName', None),
         )
 
 
